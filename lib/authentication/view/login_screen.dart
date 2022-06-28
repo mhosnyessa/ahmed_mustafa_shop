@@ -96,10 +96,15 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Dont have an account?"),
-                    Text(
-                      "Sign Up",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
                     ),
                   ],
                 )
