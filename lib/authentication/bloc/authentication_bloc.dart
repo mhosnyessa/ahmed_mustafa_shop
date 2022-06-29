@@ -18,6 +18,9 @@ class AuthenticationBloc
         super(const AuthenticationState.unknown()) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
+    on<AuthenticationEmailChanged>(_onAuthenticationEmailChanged);
+    on<AuthenticationPasswordChanged>(_onAuthenticationPasswordChanged);
+
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) {
         print('auth bloc confirmed $status');
@@ -30,6 +33,8 @@ class AuthenticationBloc
   final UserRepository _userRepository;
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
+  String? email;
+  String? password;
 
   @override
   Future<void> close() {
@@ -74,5 +79,17 @@ class AuthenticationBloc
     } catch (_) {
       return null;
     }
+  }
+
+  void emailChanged(String v) {}
+
+  FutureOr<void> _onAuthenticationEmailChanged(
+      AuthenticationEmailChanged event, Emitter<AuthenticationState> emit) {
+    email = event.email;
+  }
+
+  FutureOr<void> _onAuthenticationPasswordChanged(
+      AuthenticationPasswordChanged event, Emitter<AuthenticationState> emit) {
+    password = event.password;
   }
 }

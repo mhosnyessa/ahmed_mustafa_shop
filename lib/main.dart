@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 // return Home();
+                return SignupPage();
                 break;
               case AuthenticationStatus.unknown:
                 return SignupPage();

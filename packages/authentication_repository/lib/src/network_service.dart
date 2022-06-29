@@ -20,11 +20,7 @@ class NetworkService {
       String username, String password) async {
     var uri = Uri(
       scheme: 'https',
-      host: 'uni.al3wn.com',
-      path: 'auth-token/',
-
-      // queryParameters: {
-      // },
+      host: 'ahmed-shop-b7546.firebaseapp.com/__/auth/action',
     );
 
     try {
