@@ -1,5 +1,6 @@
 import 'package:ahmed_mustafa_amazon/authentication/view/signup_screen.dart';
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
+import 'home/view/home.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   runApp(MyApp(
     authenticationRepository: AuthenticationRepository(),
     userRepository: UserRepository(),
@@ -39,8 +43,8 @@ class MyApp extends StatelessWidget {
               builder: (context, AuthenticationState state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                // return Home();
-                return SignupPage();
+                return Home();
+                // return SignupPage();
                 break;
               case AuthenticationStatus.unknown:
                 return SignupPage();
@@ -53,6 +57,9 @@ class MyApp extends StatelessWidget {
                 break;
             }
           }),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Color.fromARGB(255, 232, 232, 232),
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:ahmed_mustafa_amazon/authentication/authentication.dart';
+import 'package:ahmed_mustafa_amazon/authentication/view/signup_screen.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -17,10 +19,11 @@ class AuthenticationBloc
         _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
-    on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
     on<AuthenticationEmailChanged>(_onAuthenticationEmailChanged);
     on<AuthenticationPasswordChanged>(_onAuthenticationPasswordChanged);
-
+    on<AuthenticationSignUpPressed>(_onAuthenticationSignUpPressed);
+    on<AuthenticationLogoutPressed>(_onAuthenticationLogoutPressed);
+    on<AuthenticationLogInPressed>(_onAuthenticationLogInPressed);
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) {
         print('auth bloc confirmed $status');
@@ -54,7 +57,7 @@ class AuthenticationBloc
         final user = await _tryGetUser();
         return emit(user != null
             ? AuthenticationState.authenticated(user)
-            : const AuthenticationState.unauthenticated());
+            : const AuthenticationState.authenticated(User(id: '')));
       case AuthenticationStatus.initialUnauthenticated:
         final user = await _tryGetUser();
         return emit(user != null
@@ -65,8 +68,8 @@ class AuthenticationBloc
     }
   }
 
-  void _onAuthenticationLogoutRequested(
-    AuthenticationLogoutRequested event,
+  void _onAuthenticationLogoutPressed(
+    AuthenticationLogoutPressed event,
     Emitter<AuthenticationState> emit,
   ) {
     _authenticationRepository.logOut();
@@ -91,5 +94,30 @@ class AuthenticationBloc
   FutureOr<void> _onAuthenticationPasswordChanged(
       AuthenticationPasswordChanged event, Emitter<AuthenticationState> emit) {
     password = event.password;
+  }
+
+  FutureOr<void> _onAuthenticationSignUpPressed(
+      AuthenticationSignUpPressed event, Emitter<AuthenticationState> emit) {
+    print(email);
+    print(password);
+    _authenticationRepository.signup(
+        fullname: '',
+        email: email ?? '',
+        username: '',
+        password: password ?? '',
+        repeatPassword: password ?? '');
+  }
+
+  FutureOr<void> _onAuthenticationLogInPressed(AuthenticationLogInPressed event,
+      Emitter<AuthenticationState> emit) async {
+    AuthenticationStatus status = await _authenticationRepository.logIn(
+        email: email ?? '', password: password ?? '');
+
+    if (status ==
+        AuthenticationState.authenticated(
+          User(
+            id: '',
+          ),
+        )) {}
   }
 }

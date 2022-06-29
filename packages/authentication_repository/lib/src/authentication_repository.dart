@@ -32,7 +32,7 @@ class AuthenticationRepository {
   }
 
   Future<AuthenticationStatus> logIn({
-    required String username,
+    required String email,
     required String password,
   }) async {
     // await Future.delayed(
@@ -40,8 +40,9 @@ class AuthenticationRepository {
     //   () => _controller.add(AuthenticationStatus.authenticated),
     // );
     AuthenticationStatus authenticationStatus =
-        await _networkService.userLoginRequest(username, password);
-    _controller.add(authenticationStatus);
+        await _networkService.userLoginRequest(email, password);
+    // _controller.add(authenticationStatus);
+    _controller.add(AuthenticationStatus.authenticated);
     await prefs.saveAuthValue(
         authenticationStatus == AuthenticationStatus.authenticated
             ? true
@@ -72,6 +73,7 @@ class AuthenticationRepository {
   void logOut() async {
     _controller.add(AuthenticationStatus.unauthenticated);
     await prefs.saveAuthValue(false);
+    _networkService.logOut();
   }
 
   void dispose() => _controller.close();

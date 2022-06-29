@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import './authentication_repository.dart';
 import 'package:http/http.dart' as http;
@@ -17,31 +18,18 @@ class NetworkService {
     }
   };
   Future<AuthenticationStatus> userLoginRequest(
-      String username, String password) async {
-    var uri = Uri(
-      scheme: 'https',
-      host: 'ahmed-shop-b7546.firebaseapp.com/__/auth/action',
-    );
-
-    try {
-      http.Response response = await http
-          .post(uri, body: {"username": username, "password": password});
-
-      switch (response.statusCode) {
-        case 200:
-          return AuthenticationStatus.authenticated;
-          break;
-        case 400:
-          return AuthenticationStatus.unauthenticated;
-          break;
-      }
-    } catch (e) {
-      return AuthenticationStatus.unknown;
-    }
-    return AuthenticationStatus.unknown;
+      String email, String password) async {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      return AuthenticationStatus.authenticated;
+    }).onError((error, stackTrace) {
+      return AuthenticationStatus.unauthenticated;
+    });
+    return AuthenticationStatus.unauthenticated;
   }
 
-  userSignupRequest({
+  Future<AuthenticationStatus> userSignupRequest({
     required String fullname,
     required String email,
     required String username,
@@ -54,10 +42,20 @@ class NetworkService {
         email: email,
         password: password,
       );
+      print('authenticated');
+      return AuthenticationStatus.authenticated;
     } on FirebaseAuthException catch (e) {
-      String message = e.code;
+      var message = e;
+      print('\n\n\n\n\n firebase exception : ' +
+          message.toString() +
+          '\n\n\n\n\n');
     } catch (e) {
-      print(e);
+      print('firebase catch e : ' + e.toString());
     }
+    return AuthenticationStatus.unauthenticated;
+  }
+
+  Future<void> logOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

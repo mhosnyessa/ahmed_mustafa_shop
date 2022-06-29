@@ -55,11 +55,26 @@ class SignupPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 40),
                           child: Column(
                             children: [
-                              MakeInput(label: "Email", onChanged: (v) {}),
+                              MakeInput(
+                                label: "UserName",
+                                onChanged: (v) {},
+                              ),
+                              MakeInput(
+                                label: "Email",
+                                onChanged: (v) {
+                                  context
+                                      .read<AuthenticationBloc>()
+                                      .add(AuthenticationEmailChanged(v));
+                                },
+                              ),
                               MakeInput(
                                 label: "Password",
                                 obsureText: true,
-                                onChanged: (v) {},
+                                onChanged: (v) {
+                                  context
+                                      .read<AuthenticationBloc>()
+                                      .add(AuthenticationPasswordChanged(v));
+                                },
                               ),
                               MakeInput(
                                 label: "Confirm Pasword",
@@ -83,7 +98,11 @@ class SignupPage extends StatelessWidget {
                             child: MaterialButton(
                               minWidth: double.infinity,
                               height: 60,
-                              onPressed: () {},
+                              onPressed: () {
+                                context
+                                    .read<AuthenticationBloc>()
+                                    .add(AuthenticationSignUpPressed());
+                              },
                               color: Colors.redAccent,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40)),
@@ -133,37 +152,37 @@ class SignupPage extends StatelessWidget {
   }
 }
 
-Widget makeInput({label, obsureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obsureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey[400]!,
-            ),
-          ),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[400]!)),
-        ),
-      ),
-      SizedBox(
-        height: 30,
-      )
-    ],
-  );
-}
+// Widget makeInput({label, obsureText = false}) {
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     children: [
+//       Text(
+//         label,
+//         style: TextStyle(
+//             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+//       ),
+//       SizedBox(
+//         height: 5,
+//       ),
+//       TextField(
+//         obscureText: obsureText,
+//         decoration: InputDecoration(
+//           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+//           enabledBorder: OutlineInputBorder(
+//             borderSide: BorderSide(
+//               color: Colors.grey[400]!,
+//             ),
+//           ),
+//           border: OutlineInputBorder(
+//               borderSide: BorderSide(color: Colors.grey[400]!)),
+//         ),
+//       ),
+//       SizedBox(
+//         height: 30,
+//       )
+//     ],
+//   );
+// }
 
 Widget MakeInput(
     {label, obsureText = false, required Null Function(dynamic v) onChanged}) {

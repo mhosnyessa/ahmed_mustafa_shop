@@ -1,8 +1,8 @@
 import 'package:ahmed_mustafa_amazon/home/data/product.dart';
 
-class CartItem {
+class CatItem {
   Product product;
   int itemCount = 0;
-  CartItem(this.product);
+  CatItem(this.product);
   double totalprice() => product.price * itemCount;
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/authentication_bloc.dart';
+import 'signup_screen.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -56,8 +60,22 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: [
-                      makeInput(label: "Email"),
-                      makeInput(label: "Password", obsureText: true),
+                      MakeInput(
+                        label: "Email",
+                        onChanged: (v) {
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(AuthenticationEmailChanged(v));
+                        },
+                      ),
+                      MakeInput(
+                        label: "Password",
+                        onChanged: (v) {
+                          context
+                              .read<AuthenticationBloc>()
+                              .add(AuthenticationPasswordChanged(v));
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -75,7 +93,11 @@ class LoginPage extends StatelessWidget {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<AuthenticationBloc>()
+                            .add(AuthenticationLogInPressed());
+                      },
                       color: Colors.indigoAccent[400],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40)),
@@ -115,36 +137,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget makeInput({label, obsureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obsureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey[400]!,
-            ),
-          ),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[400]!)),
-        ),
-      ),
-      SizedBox(
-        height: 30,
-      )
-    ],
-  );
 }
