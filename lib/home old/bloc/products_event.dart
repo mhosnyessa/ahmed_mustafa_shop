@@ -6,3 +6,8 @@ abstract class ProductsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ProductsAllRequested extends ProductsEvent {
+  @override
+  List<Object> get props => [];
+}

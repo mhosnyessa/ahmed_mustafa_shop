@@ -15,7 +15,11 @@ enum ProductsStatus {
 class ProductsRepository {
   final _controller = StreamController<ProductsStatus>();
   final NetworkService _networkService = NetworkService();
-  final prefs = SharedPreferencesService();
+  final SharedPreferencesService _prefs = SharedPreferencesService();
+
+  getProducts() {
+    _networkService.fetchAllProducts();
+  }
 
   void dispose() => _controller.close();
 }

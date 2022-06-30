@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'dart:io';
-
 import './network_service.dart';
 import './shared_pref_service.dart';
 
@@ -35,14 +33,9 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    // await Future.delayed(
-    //   const Duration(milliseconds: 300),
-    //   () => _controller.add(AuthenticationStatus.authenticated),
-    // );
     AuthenticationStatus authenticationStatus =
         await _networkService.userLoginRequest(email, password);
-    // _controller.add(authenticationStatus);
-    _controller.add(AuthenticationStatus.authenticated);
+    _controller.add(authenticationStatus);
     await prefs.saveAuthValue(
         authenticationStatus == AuthenticationStatus.authenticated
             ? true

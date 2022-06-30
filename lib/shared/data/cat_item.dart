@@ -1,4 +1,4 @@
-import 'package:ahmed_mustafa_amazon/home/data/product.dart';
+import 'package:ahmed_mustafa_amazon/shared/data/product.dart';
 
 class CatItem {
   Product product;

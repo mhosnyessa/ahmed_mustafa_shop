@@ -3,6 +3,8 @@ import 'package:ahmed_mustafa_amazon/authentication/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../cubit/authentication_navigation_cubit.dart';
+
 class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -125,11 +127,9 @@ class SignupPage extends StatelessWidget {
                             Text("Already have an account? "),
                             InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginPage(),
-                                    ));
+                                context
+                                    .read<AuthenticationNavigationCubit>()
+                                    .navigatedToSignIn();
                               },
                               child: Text(
                                 "Login",

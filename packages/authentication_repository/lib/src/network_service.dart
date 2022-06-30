@@ -19,14 +19,14 @@ class NetworkService {
   };
   Future<AuthenticationStatus> userLoginRequest(
       String email, String password) async {
-    FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+    try {
+      UserCredential user = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       return AuthenticationStatus.authenticated;
-    }).onError((error, stackTrace) {
+    } on FirebaseAuthException catch (e) {
+      print('error code from firebase exception : ' + e.toString());
       return AuthenticationStatus.unauthenticated;
-    });
-    return AuthenticationStatus.unauthenticated;
+    }
   }
 
   Future<AuthenticationStatus> userSignupRequest({
