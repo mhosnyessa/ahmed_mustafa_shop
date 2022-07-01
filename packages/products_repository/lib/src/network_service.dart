@@ -36,8 +36,7 @@ class NetworkService {
     };
     try {
       print('just before uploading in network_service repo');
-      var querySnapshot =
-          await db.collection("products").doc(title).set(product);
+      var querySnapshot = await db.collection("products").add(product);
       return Right(null);
     } catch (e) {
       print(e);

@@ -22,6 +22,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   Future<void> _onProductsAllRequested(
       ProductsAllRequested event, Emitter<ProductsState> emit) async {
     print('just before getting products');
+    emit(ProductsState.loading());
     await _productsRepository.getProducts().then((valueOrError) {
       valueOrError.fold((l) => null, (r) {
         productsList = r;

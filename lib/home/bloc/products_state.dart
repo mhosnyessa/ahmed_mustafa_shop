@@ -19,5 +19,5 @@ class ProductsState extends Equatable {
   final ProductsStatus status;
 
   @override
-  List<Object> get props => [productsList];
+  List<Object> get props => [productsList, status];
 }
