@@ -112,12 +112,13 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit) async {
     AuthenticationStatus status = await _authenticationRepository.logIn(
         email: email ?? '', password: password ?? '');
+    print('from auth bloc : ' + status.toString());
 
-    if (status ==
-        AuthenticationState.authenticated(
-          User(
-            id: '',
-          ),
-        )) {}
+    // if (status ==
+    //     AuthenticationState.authenticated(
+    //       User(
+    //         id: '',
+    //       ),
+    //     )) {}
   }
 }
