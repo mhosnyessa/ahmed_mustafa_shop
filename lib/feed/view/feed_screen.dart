@@ -2,6 +2,8 @@ import 'package:ahmed_mustafa_amazon/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../home old/bloc/products_bloc.dart';
+
 class FeedScreen extends StatelessWidget {
   const FeedScreen({Key? key}) : super(key: key);
 
@@ -15,9 +17,7 @@ class FeedScreen extends StatelessWidget {
             Text('Feed'),
             TextButton(
               onPressed: () {
-                context
-                    .read<AuthenticationBloc>()
-                    .add(AuthenticationLogoutPressed());
+                context.read<ProductsBloc>().add(ProductsAllRequested());
               },
               child: Text('get all products'),
             ),
