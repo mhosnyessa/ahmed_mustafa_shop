@@ -1,6 +1,6 @@
 import 'package:ahmed_mustafa_amazon/authentication/view/authentication_screen.dart';
 import 'package:ahmed_mustafa_amazon/authentication/view/signup_screen.dart';
-import 'package:ahmed_mustafa_amazon/feed/view/feed_screen.dart';
+import 'package:ahmed_mustafa_amazon/upload/bloc/upload_bloc.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,8 @@ import 'package:user_repository/user_repository.dart';
 import 'package:products_repository/products_repository.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
-import 'home old/bloc/products_bloc.dart';
+import 'home/bloc/products_bloc.dart';
+import 'home/view/home_screen.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -52,13 +53,17 @@ class MyApp extends StatelessWidget {
               productsRepository: productsRepository,
             ),
           ),
+          BlocProvider(
+            create: (context) =>
+                UploadBloc(productsRepository: productsRepository),
+          )
         ],
         child: MaterialApp(
           home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, AuthenticationState state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                return FeedScreen();
+                return HomeScreen();
                 // return SignupPage();
                 break;
               case AuthenticationStatus.unknown:
@@ -73,15 +78,11 @@ class MyApp extends StatelessWidget {
             }
           }),
           theme: ThemeData(
-            scaffoldBackgroundColor: Color.fromARGB(255, 232, 232, 232),
+            scaffoldBackgroundColor: Color.fromARGB(255, 65, 74, 76),
+            primarySwatch: Colors.cyan,
           ),
         ),
       ),
     );
   }
 }
-
-  //   return MaterialApp(
-  //     home: SignupPage(),
-  //   );
-  // }

@@ -24,4 +24,24 @@ class NetworkService {
       return Left(e.toString());
     }
   }
+
+  Future<Either<String, void>> uploadProduct(
+      {required String title,
+      required String imgUrl,
+      required int price}) async {
+    final product = <String, dynamic>{
+      'title': title,
+      'img': imgUrl,
+      'price': price,
+    };
+    try {
+      print('just before uploading in network_service repo');
+      var querySnapshot =
+          await db.collection("products").doc(title).set(product);
+      return Right(null);
+    } catch (e) {
+      print(e);
+      return Left(e.toString());
+    }
+  }
 }

@@ -8,7 +8,7 @@ import 'package:dartz/dartz.dart';
 import './network_service.dart';
 import './shared_pref_service.dart';
 
-enum ProductsStatus { stable, loading, noInternet, noResults, error }
+enum ProductsStatus { resultsReady, loading, noInternet, noResults, error }
 
 class ProductsRepository {
   final _controller = StreamController<ProductsStatus>();
@@ -28,4 +28,16 @@ class ProductsRepository {
   }
 
   void dispose() => _controller.close();
+
+  Future<Either<String, void>> uploadProduct(
+      String title, String imgUrl, int price) async {
+    print('right before uploading from repository');
+    Either<String, void> returnedObjOrError =
+        await _networkService.uploadProduct(
+      title: title,
+      imgUrl: imgUrl,
+      price: price,
+    );
+    return returnedObjOrError;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:ahmed_mustafa_amazon/authentication/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../shared/widgets/make_input.dart';
 import '../cubit/authentication_navigation_cubit.dart';
 
 class SignupPage extends StatelessWidget {
@@ -184,38 +185,4 @@ class SignupPage extends StatelessWidget {
 //   );
 // }
 
-Widget MakeInput(
-    {label, obsureText = false, required Null Function(dynamic v) onChanged}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      SizedBox(
-        height: 5,
-      ),
-      TextField(
-        onChanged: (v) {
-          onChanged(v);
-        },
-        obscureText: obsureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey[400]!,
-            ),
-          ),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[400]!)),
-        ),
-      ),
-      SizedBox(
-        height: 30,
-      )
-    ],
-  );
-}
+

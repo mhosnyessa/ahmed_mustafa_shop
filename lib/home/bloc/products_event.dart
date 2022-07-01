@@ -13,6 +13,9 @@ class ProductsAllRequested extends ProductsEvent {
 }
 
 class ProductsStateChanged extends ProductsEvent {
+  final List productsList;
+
+  const ProductsStateChanged(this.productsList);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [productsList];
 }

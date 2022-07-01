@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animated_bottom_navigation_bar: ^1.0.0
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.0.3
@@ -42,6 +43,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   fluttertoast: ^8.0.9
   http: ^0.13.4
+  like_button: ^2.0.4
   products_repository:
     path: packages/products_repository
   provider: ^6.0.3

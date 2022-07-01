@@ -3,6 +3,7 @@ part of 'products_bloc.dart';
 class ProductsState extends Equatable {
   const ProductsState._({
     this.productsList = const [],
+    this.status = ProductsStatus.loading,
   });
 
   const ProductsState.loading() : this._();
@@ -11,10 +12,11 @@ class ProductsState extends Equatable {
 
   const ProductsState.noInternet() : this._();
 
-  const ProductsState.resultsReady(List<Product> productsList)
-      : this._(productsList: productsList);
+  const ProductsState.resultsReady(List productsList)
+      : this._(productsList: productsList, status: ProductsStatus.resultsReady);
 
-  final List<Product> productsList;
+  final List productsList;
+  final ProductsStatus status;
 
   @override
   List<Object> get props => [productsList];

@@ -14,11 +14,21 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       : _productsRepository = productsRepository,
         super(const ProductsState.loading()) {
     on<ProductsAllRequested>(_onProductsAllRequested);
+    add(ProductsAllRequested());
   }
   final ProductsRepository _productsRepository;
+  List? productsList;
 
-  Future<FutureOr<void>> _onProductsAllRequested(
+  Future<void> _onProductsAllRequested(
       ProductsAllRequested event, Emitter<ProductsState> emit) async {
-    await _productsRepository.getProducts();
+    print('just before getting products');
+    await _productsRepository.getProducts().then((valueOrError) {
+      valueOrError.fold((l) => null, (r) {
+        productsList = r;
+        emit(ProductsState.resultsReady(r));
+      });
+    }).onError((error, stackTrace) {
+      emit(ProductsState.noResults());
+    });
   }
 }
